@@ -66,19 +66,56 @@ def onboard_files(_kiara: Kiara):
 
     return True
 
-kiara_streamlit.init(kiara_config={"extra_pipeline_folders": [], "data_store": "/tmp/markus"})
-# kiara_streamlit.init(kiara_config={"extra_pipeline_folders": []})
+# data_store = os.environ.get("KIARA_DATA_STORE")
+# kiara_streamlit.init(kiara_config={"extra_pipeline_folders": [], "data_store": "/tmp/__kiara-streamlit__"})
+kiara_streamlit.init(kiara_config={"extra_pipeline_folders": []})
 
 onboarded = onboard_files(_kiara=st.kiara)
 
 component_mgmt: ComponentMgmt = st.kiara_components
 
-component_collection = st.sidebar.selectbox("Select a component collection", options=component_mgmt.component_collections)
+collection_options = component_mgmt.component_collections
+params = st.experimental_get_query_params()
 
-all_funcs = sorted(component_mgmt.get_components_of_collection(component_collection=component_collection).keys())
+print(params)
 
-func_name = st.selectbox(label="Component", options=["-- all --"] + all_funcs)
+col_param = params.get("collection", [None])[0]
+comp_param = params.get("component", [None])[0]
+hide_sidebar_param = True if params.get("hide_sidebar", ["false"])[0] == "true" else False
 
+if col_param is None or comp_param is None:
+    hide_sidebar_param = False
+
+selected_col = 0
+if col_param in collection_options:
+    selected_col = collection_options.index(col_param)
+
+# collection selection
+if not hide_sidebar_param:
+    component_collection = st.sidebar.selectbox("Select a component collection", options=component_mgmt.component_collections, index=selected_col)
+else:
+    component_collection = collection_options[selected_col]
+
+# component selection
+selected_comp = 0
+all_funcs = ["-- all --"] + sorted(component_mgmt.get_components_of_collection(component_collection=component_collection).keys())
+if comp_param in all_funcs:
+    selected_comp = all_funcs.index(comp_param)
+
+if not hide_sidebar_param:
+    func_name = st.sidebar.selectbox(label="Component", options=all_funcs, index=selected_comp)
+else:
+    func_name = all_funcs[selected_comp]
+
+set_params = {
+    "collection": component_collection,
+    "component": func_name
+}
+if hide_sidebar_param:
+    set_params["hide_sidebar"] = "true"
+st.experimental_set_query_params(**set_params)
+
+# write component(s)
 if func_name == "-- all --":
     for func_name, model in component_mgmt.get_components_of_collection(component_collection=component_collection).items():
         component_mgmt.render_component_doc(component_collection=component_collection, component_name=func_name)
