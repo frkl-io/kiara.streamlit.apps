@@ -77,8 +77,6 @@ component_mgmt: ComponentMgmt = st.kiara_components
 collection_options = component_mgmt.component_collections
 params = st.experimental_get_query_params()
 
-print(params)
-
 col_param = params.get("collection", [None])[0]
 comp_param = params.get("component", [None])[0]
 hide_sidebar_param = True if params.get("hide_sidebar", ["false"])[0] == "true" else False
