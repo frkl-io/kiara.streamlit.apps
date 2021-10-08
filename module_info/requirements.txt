@@ -1,4 +1,4 @@
---pre --extra-index-url https://pypi.fury.io/dharpa
+--extra-index-url https://pypi.fury.io/dharpa
 git+https://github.com/DHARPA-Project/kiara.git@develop#egg=kiara[all]
 git+https://github.com/DHARPA-Project/kiara_modules.core.git@develop#egg=kiara_modules.core[all]
 git+https://github.com/DHARPA-Project/kiara_modules.language_processing.git@develop#egg=kiara_modules.language_processing[all]
