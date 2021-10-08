@@ -6,6 +6,7 @@ import typing
 import streamlit as st
 
 import kiara_streamlit
+from kiara.config import KiaraConfig
 
 module_name: typing.Optional[str] = os.environ.get("DEV_MODULE_NAME", None)
 
@@ -30,6 +31,8 @@ if module_name:
 _kiara_config = os.environ.get("KIARA_CONFIG", None)
 if _kiara_config:
     kiara_config = json.loads(_kiara_config)
+else:
+    kiara_config = {}
 
 kiara_streamlit.init(kiara_config=kiara_config)
 
