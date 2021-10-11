@@ -4,3 +4,4 @@ kiara_modules.core
 kiara.streamlit
 kiara_modules.language_processing
 kiara_modules.network_analysis
+streamlit-observable-dharpa
