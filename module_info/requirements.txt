@@ -1,4 +1,4 @@
---pre --extra-index-url https://pypi.fury.io/dharpa
+--extra-index-url https://pypi.fury.io/dharpa
 kiara
 kiara_modules.core
 kiara.streamlit
