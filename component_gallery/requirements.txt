@@ -2,3 +2,4 @@
 kiara
 kiara_modules.core
 kiara.streamlit
+streamlit-observable-dharpa
